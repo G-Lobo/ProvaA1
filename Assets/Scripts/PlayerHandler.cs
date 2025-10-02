@@ -58,10 +58,10 @@ public class PlayerHandler : MonoBehaviour
     {
         
         RaycastHit hit;
-        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, 3f))
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.position, out hit, 3f))
         {
             DoorHandler door = hit.collider.GetComponent<DoorHandler>();
-            if (door != null)
+            if (door)
             {
                 door.Interact(); 
             }

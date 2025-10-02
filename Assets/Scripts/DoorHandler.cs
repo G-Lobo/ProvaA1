@@ -25,11 +25,18 @@ public class DoorHandler : MonoBehaviour
 
             // move o player para a entrada do novo corredor
             PlayerHandler player = FindObjectOfType<PlayerHandler>();
-            if (player != null)
+            if (player)
             {
                 player.transform.position = nextRoomInstance.transform.position + Vector3.forward * 2;
+                player.transform.rotation = nextRoomInstance.transform.rotation;
             }
 
+            SimpleEnemy enemy = FindObjectOfType<SimpleEnemy>();
+            if (enemy)
+            {
+                enemy.transform.position = nextRoomInstance.transform.position + Vector3.forward * -4;
+            }
+            
             // destrói o corredor antigo
             Destroy(currentRoom);
 
