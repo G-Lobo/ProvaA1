@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class PlayerHandler : MonoBehaviour
 {
-    [SerializeField] float moveSpeed = 5f;
-    [SerializeField] float mouseSensitivity = 2f;
-    [SerializeField] float jumpForce = 5f;
+    [SerializeField] float moveSpeed = 7f;
+    [SerializeField] float mouseSensitivity = 2.5f;
+    [SerializeField] float jumpForce = 5.5f;
 
     [SerializeField] Rigidbody rb;
     private Camera playerCamera;
@@ -68,4 +68,3 @@ public class PlayerHandler : MonoBehaviour
         }
     }
 }
-

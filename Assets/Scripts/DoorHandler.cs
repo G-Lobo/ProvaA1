@@ -3,40 +3,40 @@ using UnityEngine;
 public class DoorHandler : MonoBehaviour
 {
     [Header("Door Settings")]
-    public bool isLocked = false; 
-    public GameObject nextRoom;
+    public GameObject[] rooms; // prefabs de corredores
+    private GameObject currentRoom; // referência ao corredor atual
 
-    
+    [Header("Spawn Settings")]
+    public Transform spawnPoint; // onde o novo corredor nasce
+
     public void Interact()
     {
-        
+        // sorteia um corredor da lista
+        int roomNumber = Random.Range(0, rooms.Length);
+        GameObject nextRoomPrefab = rooms[roomNumber];
 
-        if (isLocked)
+        if (nextRoomPrefab)
         {
-           
-            if (Random.Range(0f, 1f) > 0.7f) 
+            // pega o corredor atual (pai da porta, por exemplo)
+            currentRoom = transform.root.gameObject;
+
+            // instancia o novo corredor
+            GameObject nextRoomInstance = Instantiate(nextRoomPrefab, spawnPoint.position, spawnPoint.rotation);
+
+            // move o player para a entrada do novo corredor
+            PlayerHandler player = FindObjectOfType<PlayerHandler>();
+            if (player != null)
             {
-                Debug.Log("Porta trancada! Tente novamente.");
-                return;
+                player.transform.position = nextRoomInstance.transform.position + Vector3.forward * 2;
             }
-            isLocked = false;
-        }
 
-        
-        transform.Rotate(0, 90, 0);
-        
-        
-        if (nextRoom != null)
-        {
-            nextRoom.SetActive(true);
-            
-            FindObjectOfType<PlayerHandler>().transform.position = nextRoom.transform.position + Vector3.forward * 2;
-        }
+            // destrói o corredor antigo
+            Destroy(currentRoom);
 
-        Debug.Log("Porta aberta! Avance para o próximo quarto.");
+            Debug.Log("Porta aberta! Novo corredor: " + nextRoomInstance.name);
+        }
     }
 
-    
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
